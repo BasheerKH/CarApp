@@ -18,6 +18,7 @@ public class Car {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
+	
 	private String brand, model, color, registerNumber;
 	private int year, price;
 	
@@ -25,12 +26,12 @@ public class Car {
     @JoinColumn(name = "owner")
     private Owner owner;
 	
+	/*
+	 * this code flow for many cars for many owners
     @ManyToMany(mappedBy = "cars") 
     private Set<Owner> owners;
-    /*
-    @ManyToMany(mappedBy = "trips") 
-    private Set<Trip> trips; 
-*/
+    
+
     public Set<Owner> getOwners() {
       return owners;
     }
@@ -38,7 +39,19 @@ public class Car {
     public void setOwners(Set<Owner> owners) {
       this.owners = owners;
     }
+    */
 
+	
+    @ManyToMany(mappedBy = "cars") 
+    private Set<Trip> trips; 
+    
+	public Set<Trip> getTrips() {
+		return trips;
+	}
+
+	public void setTrips(Set<Trip> trips) {
+		this.trips = trips;
+	}
 	
 	public Car() {
 		super();
