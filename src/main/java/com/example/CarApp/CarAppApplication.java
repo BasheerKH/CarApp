@@ -2,7 +2,6 @@ package com.example.CarApp;
 
 import java.util.HashSet;
 
-import org.hibernate.mapping.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -53,12 +52,11 @@ public class CarAppApplication {
               HashSet<Owner> o = new HashSet<Owner>();
               o.add(owner1);
               o.add(owner2);
-              o.add(owner3);
         	  
         	  //Add trip objects and save them into DB
         	  Trip trip1 = new Trip("Summer Time", "Haifa beach", "swimming",o);
         	  Trip trip2 = new Trip("Spring Time", "Mount Gilboa", "walking",o);
-        	  Trip trip3 = new Trip("Winter Time", "Mount Hermon", "Skiing");
+        	  Trip trip3 = new Trip("Winter Time", "Mount Hermon", "Skiing",owner3);
         	  trepository.save(trip1);
         	  trepository.save(trip2);
         	  trepository.save(trip3);

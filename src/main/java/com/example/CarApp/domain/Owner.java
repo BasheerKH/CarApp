@@ -1,6 +1,5 @@
 package com.example.CarApp.domain;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 
 @Entity
 public class Owner {
@@ -33,6 +30,7 @@ public class Owner {
       this.firstname = firstname;
       this.lastname = lastname;
     }
+
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy="owner")
     private List<Car> cars;

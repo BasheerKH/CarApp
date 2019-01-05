@@ -22,9 +22,10 @@ public class Trip {
 	
 	@ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "trip_owner", joinColumns = { @JoinColumn(name =
-     "ownerid") }, inverseJoinColumns = { @JoinColumn(name = "tripId") }) 
-    private Set<Owner> owners = new HashSet<Owner>(0); 
-    
+    		"tripId") }, inverseJoinColumns = { @JoinColumn(name = "ownerid") }) 
+    private Set<Owner> owners = new HashSet<Owner>(0);
+	
+
 	public Set<Owner> getOwners() {
 		return owners;
 	}
@@ -51,9 +52,18 @@ public class Trip {
 		this.owners = owners; 
 	}
 
+	public Trip(String tripName, String tripPlace, String tripActivity, Owner owner) {
+		super();
+		this.tripName = tripName;
+		this.tripPlace = tripPlace;
+		this.tripActivity = tripActivity;
+		this.owners = new HashSet<Owner>();
+		this.owners.add(owner);
+	}
+
 	@ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "car_trip", joinColumns = { @JoinColumn(name = "tripName", referencedColumnName = "tripId") }, 
-    inverseJoinColumns = { @JoinColumn(name = "Car_id", referencedColumnName = "id") }) 
+    inverseJoinColumns = { @JoinColumn(name = "Carid", referencedColumnName = "id") }) 
     private Set<Car> cars = new HashSet<Car>(0); 
 
 	public Set<Car> getCars() {
@@ -95,4 +105,5 @@ public class Trip {
 	public void setTripActivity(String tripActivity) {
 		this.tripActivity = tripActivity;
 	}
+
 }
