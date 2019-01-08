@@ -1,7 +1,9 @@
 package com.example.CarApp.domain;
 
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
@@ -24,6 +30,7 @@ public class Car {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Owner owner;
 	
 	/*
@@ -42,7 +49,7 @@ public class Car {
     */
 
 	
-    @ManyToMany(mappedBy = "cars") 
+	@ManyToMany(mappedBy = "cars") 
     private Set<Trip> trips; 
     
 	public Set<Trip> getTrips() {

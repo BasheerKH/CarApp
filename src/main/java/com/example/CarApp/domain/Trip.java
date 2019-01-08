@@ -25,7 +25,6 @@ public class Trip {
     						inverseJoinColumns = { @JoinColumn(name = "ownerid", referencedColumnName = "ownerid") }) 
     private Set<Owner> owners = new HashSet<Owner>(0);
 	
-
 	public Set<Owner> getOwners() {
 		return owners;
 	}
@@ -62,7 +61,7 @@ public class Trip {
 	}
 
 	@ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "car_trip", joinColumns = { @JoinColumn(name = "tripId", referencedColumnName = "tripId") }, 
+    @JoinTable(name = "trip_car", joinColumns = { @JoinColumn(name = "tripId", referencedColumnName = "tripId") }, 
     inverseJoinColumns = { @JoinColumn(name = "id", referencedColumnName = "id") }) 
     private Set<Car> cars = new HashSet<Car>(0); 
 

@@ -75,8 +75,6 @@ public class CarAppApplication {
               car = new Car("Siat", "Ibiza", "Red",
                       "BXN-4502", 2013, 26000, owner3);
                   repository.save(car);
-                  
-              
               
           };
 		

@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Owner {
 	
@@ -19,10 +22,6 @@ public class Owner {
     private long ownerid;
     private String firstname, lastname;
     
-	@ManyToMany(mappedBy = "owners")
-	 private Set<Trip> trips; 
-	
-
     public Owner() {}
 
     public Owner(String firstname, String lastname) {
@@ -33,6 +32,8 @@ public class Owner {
 
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy="owner")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
     private List<Car> cars;
     
     public List<Car> getCars() {
@@ -42,6 +43,18 @@ public class Owner {
 	public void setCars(List<Car> cars) {
 		this.cars = cars;
 	}
+	
+	@ManyToMany(mappedBy = "owners")
+	 private Set<Trip> trips; 
+
+	public Set<Trip> getTrips() {
+		return trips;
+	}
+
+	public void setTrips(Set<Trip> trips) {
+		this.trips = trips;
+	}
+
 
 /*    
  * this code flow for many owners for many cars
@@ -83,7 +96,5 @@ public class Owner {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
-    
-
 
 }
