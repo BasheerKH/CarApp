@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Trip {
 	
@@ -22,7 +25,9 @@ public class Trip {
 	
 	@ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "trip_owner", joinColumns = { @JoinColumn(name ="tripId", referencedColumnName = "tripId") }, 
-    						inverseJoinColumns = { @JoinColumn(name = "ownerid", referencedColumnName = "ownerid") }) 
+    						inverseJoinColumns = { @JoinColumn(name = "ownerid", referencedColumnName = "ownerid") })
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
     private Set<Owner> owners = new HashSet<Owner>(0);
 	
 	public Set<Owner> getOwners() {

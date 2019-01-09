@@ -45,6 +45,8 @@ public class Owner {
 	}
 	
 	@ManyToMany(mappedBy = "owners")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
 	 private Set<Trip> trips; 
 
 	public Set<Trip> getTrips() {
