@@ -13,7 +13,7 @@ public class CarController {
     private CarRepositor repository;
 	
 	@RequestMapping("/cars")
-	public Iterable<Car>getCars(){
+	public Iterable<Car> getCars(){
 		return repository.findAll();
 	}
 
