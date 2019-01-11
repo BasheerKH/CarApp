@@ -1,113 +1,82 @@
 package com.example.CarApp.domain;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Trip {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long tripId;
-	private String tripName, tripPlace, tripActivity;
-	
-	@ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "trip_owner", joinColumns = { @JoinColumn(name ="tripId", referencedColumnName = "tripId") }, 
-    						inverseJoinColumns = { @JoinColumn(name = "ownerid", referencedColumnName = "ownerid") })
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonIgnore
-    private Set<Owner> owners = new HashSet<Owner>(0);
-	
-	public Set<Owner> getOwners() {
-		return owners;
-	}
 
-	public void setOwners(Set<Owner> owners) {
-		this.owners = owners;
-	}
-
-	public Trip() {}
+	long trip_id;
+	String tripName, tripPlace, tripActive;
 	
-	public Trip(String tripName, String tripPlace, String tripActivity) {
-		super();
-		this.tripName = tripName;
-		this.tripPlace = tripPlace;
-		this.tripActivity = tripActivity;
-		this.owners = null;
-	}
 	
-	public Trip(String tripName, String tripPlace, String tripActivity, Set<Owner> owners) {
-		super();
-		this.tripName = tripName;
-		this.tripPlace = tripPlace;
-		this.tripActivity = tripActivity;
-		this.owners = owners; 
-	}
-
-	public Trip(String tripName, String tripPlace, String tripActivity, Owner owner) {
-		super();
-		this.tripName = tripName;
-		this.tripPlace = tripPlace;
-		this.tripActivity = tripActivity;
-		this.owners = new HashSet<Owner>();
-		this.owners.add(owner);
-	}
-
-	@ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "trip_car", joinColumns = { @JoinColumn(name = "tripId", referencedColumnName = "tripId") }, 
-    inverseJoinColumns = { @JoinColumn(name = "id", referencedColumnName = "id") }) 
-    private Set<Car> cars = new HashSet<Car>(0); 
-
+	private Set<Car> cars;
+	
+	
+	@ManyToMany(mappedBy = "trips")
 	public Set<Car> getCars() {
 		return cars;
 	}
-
 	public void setCars(Set<Car> cars) {
 		this.cars = cars;
 	}
 
-	public Long getTripId() {
-		return tripId;
+	private Set<Person> persons;
+	
+	@ManyToMany(mappedBy = "trips")
+	//@JoinColumn(name = "persons")
+	public Set<Person> getPersons() {
+		return persons;
+	}
+	public void setPersons(Set<Person> persons) {
+		this.persons = persons;
+	}
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public long getTrip_id() {
+		return trip_id;
+	}
+	public void setTrip_id(long trip_id) {
+		this.trip_id = trip_id;
+	}
+	
+	public Trip() {}
+	
+	public Trip(String tripName, String tripPlace, String tripActive) {
+		super();
+		this.tripName = tripName;
+		this.tripPlace = tripPlace;
+		this.tripActive = tripActive;
 	}
 
-	public void setTripId(Long tripId) {
-		this.tripId = tripId;
-	}
-
+	
 	public String getTripName() {
 		return tripName;
 	}
-
 	public void setTripName(String tripName) {
 		this.tripName = tripName;
 	}
-	
 	public String getTripPlace() {
 		return tripPlace;
 	}
-
 	public void setTripPlace(String tripPlace) {
 		this.tripPlace = tripPlace;
 	}
+	public String getTripActive() {
+		return tripActive;
+	}
+	public void setTripActive(String tripActive) {
+		this.tripActive = tripActive;
+	}
 	
-	public String getTripActivity() {
-		return tripActivity;
-	}
-
-	public void setTripActivity(String tripActivity) {
-		this.tripActivity = tripActivity;
-	}
 
 }
+
+

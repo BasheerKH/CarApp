@@ -1,6 +1,8 @@
 package com.example.CarApp.domain;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,64 +12,50 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 
 @Entity
 public class Car {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
-	
+    
+    private long id;
 	private String brand, model, color, registerNumber;
-	private int year, price;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner")
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private int year, price;
+
+    //Getter and setter
+   
     private Owner owner;
-	
-	/*
-	 * this code flow for many cars for many owners
-    @ManyToMany(mappedBy = "cars") 
-    private Set<Owner> owners;
     
-
-    public Set<Owner> getOwners() {
-      return owners;
+    @ManyToOne
+    @JoinColumn(name = "owner")
+    public Owner getOwner() {
+      return owner;
     }
 
-    public void setOwners(Set<Owner> owners) {
-      this.owners = owners;
+    public void setOwner(Owner owner) {
+      this.owner = owner;
     }
-    */
-
-	
-	@ManyToMany(mappedBy = "cars") 
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonIgnore
-    private Set<Trip> trips; 
     
-	public Set<Trip> getTrips() {
-		return trips;
+    
+    private Set<Trip> trips = new HashSet<Trip>(0);
+    		
+    
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "car_in_trip", joinColumns = @JoinColumn(name = "car_id", referencedColumnName = "id"), 
+    						inverseJoinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "trip_id"))
+    public Set<Trip> getTrips() {
+	return trips;
 	}
 
 	public void setTrips(Set<Trip> trips) {
 		this.trips = trips;
 	}
-	
-	public Car() {
-		super();
-	}
-	
-	public Car(/*Long id*/String brand, String model, String color, 
-			String registerNumber, int year, int price, Owner owner) {
+
+	public Car() {}
+    
+	public Car( String brand, String model, String color, String registerNumber, 
+    		int year, int price) {
 		super();
 		//this.id = id;
 		this.brand = brand;
@@ -76,21 +64,27 @@ public class Car {
 		this.registerNumber = registerNumber;
 		this.year = year;
 		this.price = price;
-		this.owner = owner;
+	}
+	
+    public Car( String brand, String model, String color, String registerNumber, 
+    		int year, int price, Trip trips, Owner owner ) {
+		super();
+		//this.id = id;
+		this.brand = brand;
+		this.model = model;
+		this.color = color;
+		this.registerNumber = registerNumber;
+		this.year = year;
+		this.price = price;
+		this.owner=owner;
+		this.trips.add(trips);
 	}
     
-	public Owner getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Owner owner) {
-		this.owner = owner;
-	}
-
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	public long getId() {
 		return id;
 	}
-
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -130,5 +124,8 @@ public class Car {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-}
-	
+
+
+  }
+
+
