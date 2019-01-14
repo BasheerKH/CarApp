@@ -1,5 +1,6 @@
 package com.example.CarApp;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -46,15 +47,7 @@ public class CarAppApplication {
         CommandLineRunner runner(){
 		
           return args -> {
-        	// add person objects and save them to db
-        	  Person P1 = new Person("George","clooney");
-        	  Person P2 = new Person("Brad","pitt");
-        	  Person P3 = new Person("mariah","Carey");
-        	  Person P4 = new Person("Angelina","Jolie");
-        	  prepository.save(P1);
-        	  prepository.save(P2);
-        	  prepository.save(P3);
-        	  prepository.save(P4);
+        	
         	  
         	// Add owner objects and save them to db
               Owner owner1 = new Owner("John" , "Johnson");
@@ -73,6 +66,23 @@ public class CarAppApplication {
         	  trepository.save(trip2);
         	  trepository.save(trip3);
         	  
+        	  Set<Trip> tr1 = new HashSet<Trip>(0);
+        	  tr1.add(trip1);
+        	  tr1.add(trip3);
+        	  Set<Trip> tr2 = new HashSet<Trip>(0);
+        	  tr2.add(trip3);
+        	  tr2.add(trip2);
+        	  
+        	  
+        	// add person objects and save them to db
+        	  Person P1 = new Person("George","clooney",tr1);
+        	  Person P2 = new Person("Brad","pitt",trip2);
+        	  Person P3 = new Person("mariah","Carey",tr2);
+        	  Person P4 = new Person("Angelina","Jolie",trip1);
+        	  prepository.save(P1);
+        	  prepository.save(P2);
+        	  prepository.save(P3);
+        	  prepository.save(P4);
               
               // Add car object with link to owners and save these to db.
               Car car = new Car("Ford", "Mustang", "Red", 

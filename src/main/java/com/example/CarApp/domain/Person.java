@@ -1,5 +1,6 @@
 package com.example.CarApp.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,7 +23,7 @@ public class Person {
 	
 	private String P_firstName, P_lastName;
 	
-    private Set<Trip> trips;
+	private Set<Trip> trips = new HashSet<Trip>(0);
     
 	@ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "PersonInTrip", joinColumns = @JoinColumn(name = "pId", referencedColumnName = "pId"), 
@@ -41,6 +42,21 @@ public class Person {
 		super();
 		P_firstName = p_firstName;
 		P_lastName = p_lastName;
+		this.trips = null;
+	}
+
+	public Person(String p_firstName, String p_lastName, Set<Trip> trips) {
+		super();
+		P_firstName = p_firstName;
+		P_lastName = p_lastName;
+		this.trips = trips;
+	}
+	
+	public Person(String p_firstName, String p_lastName, Trip trips) {
+		super();
+		P_firstName = p_firstName;
+		P_lastName = p_lastName;
+		this.trips.add(trips);
 	}
 
 	@Id
